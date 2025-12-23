@@ -155,6 +155,32 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
+/* === 新增分享按鈕樣式 === */
+        .share-box {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .s-btn {
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .s-btn:active { opacity: 0.8; transform: scale(0.95); }
+        .line-bg { background-color: #06C755; } /* LINE 綠色 */
+        .fb-bg { background-color: #1877F2; }   /* FB 藍色 */
+        .copy-bg { background-color: #606770; } /* 灰色 */
     </style>
 </head>
 <body>
@@ -176,7 +202,15 @@
                 <span id="r-mission">任務說明...</span>
             </div>
             <a id="r-link" href="#" target="_blank" class="cta-button">立即行動</a>
-            <button class="close-btn" onclick="closeModal()">關閉並重試</button>
+            <div class="share-box">
+                <p style="color: #666; font-size: 0.9rem; margin: 15px 0 5px;">覺得準嗎？分享好運給朋友！</p>
+                <div class="share-buttons">
+                    <button onclick="shareToLine()" class="s-btn line-bg">LINE</button>
+                    <button onclick="shareToFB()" class="s-btn fb-bg">FB</button>
+                    <button onclick="copyLink()" class="s-btn copy-bg">複製連結</button>
+                </div>
+                <button class="close-btn" onclick="closeModal()">🔄 再玩一次</button>
+            </div>
         </div>
     </div>
 
@@ -358,6 +392,31 @@
         // 重建邊界以適應新視窗
         createBoundaries();
     });
+
+// ============================================
+    // 4. 分享功能 (新增)
+    // ============================================
+    // 設定你的 GitHub Pages 網址
+    const shareUrl = "https://koni0403.github.io/2026-lucky-draw/";
+
+    function shareToLine() {
+        // 開啟 LINE 分享視窗
+        window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl));
+    }
+
+    function shareToFB() {
+        // 開啟 Facebook 分享視窗
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl));
+    }
+
+    function copyLink() {
+        // 複製連結到剪貼簿
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            alert("連結已複製！快去貼給朋友吧！📋");
+        }).catch(err => {
+            console.error('複製失敗:', err);
+        });
+    }
 
 </script>
 </body>
