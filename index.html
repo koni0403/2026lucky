@@ -232,12 +232,11 @@
                 <strong>💡 幸運任務：</strong><br>
                 <span id="r-mission">任務說明...</span>
             </div>
-            <a id="r-link" href="#" target="_blank" class="cta-button">立即行動</a>
+            <a id="r-link" href="#" target="_blank" class="cta-button" onclick="trackDonateClick()">立即行動</a>
             <div class="share-box">
                 <p style="color: #666; font-size: 0.9rem; margin: 15px 0 5px;">覺得準嗎？分享好運給朋友！</p>
                 <div class="share-buttons">
                     <button onclick="shareToLine()" class="s-btn line-bg">LINE</button>
-                    <button onclick="shareToFB()" class="s-btn fb-bg">FB</button>
                     <button onclick="copyLink()" class="s-btn copy-bg">複製連結</button>
                 </div>
                 <button class="close-btn" onclick="closeModal()">🔄 再玩一次</button>
@@ -442,18 +441,24 @@
         }).catch(err => {
             console.error('複製失敗:', err);
         });
-　　　　// 1. 觸發 FB Pixel 事件
+
+    }
+
+   // 這是你要的像素追蹤功能 (FB + GA4)
+    function trackDonateClick() {
+        console.log('User clicked donate button'); // 測試用
+
+        // 1. 觸發 FB Pixel 事件 (InitiateCheckout)
         if (typeof fbq === 'function') {
             fbq('track', 'InitiateCheckout'); 
         }
 
-        // 2. 觸發 GA4 事件 (新增的部分)
+        // 2. 觸發 GA4 事件 (donate_click)
         if (typeof gtag === 'function') {
             gtag('event', 'donate_click', {
                 'event_category': 'interaction',
                 'event_label': 'gacha_result_page'
             });
-            console.log('GA4 Event Fired: donate_click');
         }
     }
 
